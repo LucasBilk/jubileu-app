@@ -12,6 +12,14 @@ production:
   adapter: solid_cable
   connects_to:
     database:
-      writing: cable
+      writing:
+        adapter: postgresql
+        encoding: unicode
+        database: <%= ENV["RDS_DB_NAME"] %>
+        username: <%= ENV["RDS_USERNAME"] %>
+        password: <%= ENV["RDS_PASSWORD"] %>
+        host: <%= ENV["RDS_HOSTNAME"] %>
+        port: <%= ENV["RDS_PORT"] || 5432 %>
+        pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   polling_interval: 0.1.seconds
   message_retention: 1.day
